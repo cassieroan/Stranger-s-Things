@@ -1,11 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { PostsPage } from './PostsPage.jsx'
+
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
-import './index.css'
 import { apiSlice } from './api.jsx';
+
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { PostsPage } from './PostsPage.jsx'
+
+import Toolbar from '@mui/material/Toolbar';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+
 
 // Create the Redux store
 const store = configureStore({
@@ -21,14 +29,39 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <div id="navbar">
-          <Link to="/">Home</Link>
-          <Link to="/posts">Posts</Link>
-        </div>
-        <Routes>
-          <Route path="/" element={<h1>Hello world</h1>} />
-          <Route path="/posts" element={<PostsPage />} />
-        </Routes>
+
+        <AppBar component="nav">
+          <Toolbar>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              Stranger's Things
+            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <Link to="/">
+                <Button sx={{ color: '#fff' }}>
+                  Home
+                </Button>
+              </Link>
+              <Link to="/posts">
+                <Button sx={{ color: '#fff' }}>
+                  Posts
+                </Button>
+              </Link>
+            </Box>
+          </Toolbar>
+        </AppBar>
+
+        <Box component="main" sx={{ p: 3 }}>
+          <Toolbar />
+
+          <Routes>
+            <Route path="/" element={<h1>Hello world</h1>} />
+            <Route path="/posts" element={<PostsPage />} />
+          </Routes>
+        </Box>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
