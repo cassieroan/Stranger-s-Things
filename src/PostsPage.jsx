@@ -1,10 +1,14 @@
-import { Box, Typography, Card, CardContent, TextField } from '@mui/material';
-import { useGetPostsQuery } from './api'
+import { Box, Typography, Card, CardContent, TextField, Button } from '@mui/material';
+import { useDeletePostMutation, useGetPostsQuery } from './api'
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 export function PostsPage() {
   const { data: envelope, isLoading, isError, error } = useGetPostsQuery();
   const [search, setSearch] = useState("")
+
+  const [deletePost] = useDeletePostMutation();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,6 +37,9 @@ export function PostsPage() {
           value={search}
           onChange={evt => setSearch(evt.target.value)}
         />
+        <Link to="/add-post">
+          <Button variant="outlined" color="primary">Add Post</Button>
+        </Link>
       </Box>
       
       <Box display="flex" flexDirection="column" gap={2}>
@@ -68,6 +75,12 @@ export function PostsPage() {
                   {post.location}
                 </Typography>
               </div>
+              { post.isAuthor && (
+                <Button variant="outlined" onClick={async () => {
+                  await deletePost({ post_id: post._id }).unwrap();
+
+                }}>Delete</Button>
+              )}
             </CardContent>
           </Card>
         ))}

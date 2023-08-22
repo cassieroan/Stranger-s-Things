@@ -20,11 +20,13 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['all'],
   // The "endpoints" represent operations and requests for this server
   endpoints: builder => ({
     // The `getPosts` endpoint is a "query" operation that returns data
     getPosts: builder.query({
-      query: () => '/posts'
+      query: () => '/posts',
+      providesTags: ['all'],
     }),
 
     registerUser: builder.mutation({
@@ -41,12 +43,28 @@ export const apiSlice = createApi({
         method: 'POST',
         body: credentials
       })
-    })
+    }),
 
+    addPost: builder.mutation({
+      query: (post) => ({
+        url: '/posts',
+        method: 'POST',
+        body: post,
+      }),
+      invalidatesTags: ['all'],
+    }),
+
+    deletePost: builder.mutation({
+      query: ({post_id}) => ({
+        url: `/posts/${post_id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['all'],
+    })
   })
 })
 
 // Export the auto-generated hooks for the endpoints
-export const { useGetPostsQuery, useRegisterUserMutation, useLoginMutation } = apiSlice
+export const { useGetPostsQuery, useRegisterUserMutation, useLoginMutation, useAddPostMutation, useDeletePostMutation } = apiSlice
 
 

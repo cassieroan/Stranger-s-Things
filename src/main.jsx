@@ -15,7 +15,10 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { AccountRegistrationPage } from './AccountRegistrationPage.jsx';
 import { LoginPage } from './LoginPage.jsx';
+import { Home } from './Home.jsx';
 import { authSlice, selectIsLoggedIn } from './redux/authSlice.jsx';
+import { AddPostForm } from './AddPostForm.jsx';
+import { Profile } from './Profile.jsx';
 
 
 // Create the Redux store
@@ -65,6 +68,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   Posts
                 </Button>
               </Link>
+              <Link to="/profile">
+                <Button sx={{ color: '#fff' }}>
+                  Profile
+                </Button>
+              </Link>
+              <Link to="/#">
+                <Button sx={{ color: '#fff' }}>
+                  Logout
+                </Button>
+              </Link>
             </Box>
           </Toolbar>
         </AppBar>
@@ -75,8 +88,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/account/login" element={<LoginPage />} />
             <Route path="/account/register" element={<AccountRegistrationPage />} />
+            <Route path="add-post" element={<AddPostForm />} />
+            <Route path="profile" element={<Profile />} />
             <Route path="*" element={<PrivateOutlet />}>
-              <Route index element={<h1>Hello world</h1>} />
+              <Route index element={<Home />} />
               <Route path="posts" element={<PostsPage />} />
             </Route>
           </Routes>
